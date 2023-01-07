@@ -3,10 +3,38 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF_Template_MVVM"
+        xmlns:local="clr-namespace:WPF_Template_MVVM" 
+        xmlns:vm="clr-namespace:WPF_Template_MVVM.ViewModels" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
 
-    </Grid>
+    <Window.DataContext>
+        <vm:ViewModelMainWindow />
+    </Window.DataContext>
+
+    <StackPanel Margin="10" >
+        <TextBlock Text="Please enter a first and last name:"/>
+        
+        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        
+        <TextBox Text="{Binding Firstname, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        
+        <Button Content="{Binding Fullname, UpdateSourceTrigger=PropertyChanged}" Margin="5">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding CommandClick_AddUser}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        
+        <ListView ItemsSource="{Binding Users}" HorizontalAlignment="Center" Margin="5">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="250" Header="Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Width="250" Header="Firstname" DisplayMemberBinding="{Binding FirstName}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
 </Window>
